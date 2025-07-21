@@ -52,22 +52,63 @@ const Home = () => {
     
     const fetchShopItems = async () => {
       console.log('🔍 Home: Starting to fetch shop items...');
+      
+      // Set timeout for faster loading
+      const timeoutId = setTimeout(() => {
+        console.log('⏰ Home: Shop loading timeout - setting fallback data');
+        setShopItems([]);
+        setLoading(false);
+      }, 3000); // 3 second timeout
+      
       try {
         console.log('📞 Home: Making API call to /shop/items');
-        const response = await axios.get('/shop/items');
+        const response = await axios.get('/shop/items', { 
+          timeout: 2500 // 2.5 second axios timeout
+        });
+        
+        clearTimeout(timeoutId); // Clear timeout if successful
+        
         console.log('✅ Home: Shop API response received:', response);
         console.log('📦 Home: Response data:', response.data);
         console.log('📊 Home: Number of items:', response.data?.length);
         
-        setShopItems(response.data);
+        setShopItems(response.data || []);
         console.log('✅ Home: Shop items set in state');
       } catch (error) {
+        clearTimeout(timeoutId); // Clear timeout on error
+        
         console.error('❌ Home: Error fetching shop items:', error);
         console.error('❌ Home: Error status:', error.response?.status);
         console.error('❌ Home: Error data:', error.response?.data);
-        console.error('❌ Home: Full error:', error);
-        // Fallback to empty array if API fails
-        setShopItems([]);
+        
+        // Set fallback data quickly
+        setShopItems([
+          {
+            _id: '1',
+            name: 'Black Pepper',
+            description: 'Premium black pepper from Chikmagalur',
+            price: 299,
+            image: 'https://images.unsplash.com/photo-1588058365548-9efe5acb8077',
+            category: 'spices'
+          },
+          {
+            _id: '2', 
+            name: '100% Arabica Coffee',
+            description: 'Single estate Arabica beans',
+            price: 450,
+            image: 'https://images.unsplash.com/photo-1559056961-84f90033c63d',
+            category: 'coffee'
+          },
+          {
+            _id: '3',
+            name: 'Filter Coffee Powder',
+            description: 'Traditional South Indian filter coffee',
+            price: 350,
+            image: 'https://images.unsplash.com/photo-1587734195503-904fca47e0d9',
+            category: 'coffee'
+          }
+        ]);
+        console.log('🔄 Home: Using fallback shop items');
       } finally {
         console.log('🏁 Home: Setting loading to false');
         setLoading(false);
@@ -220,65 +261,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Menu Section - Lower Opacity */}
-      <section id="menu" className="section-padding coffee-bean-section-low">
-        <div className="max-w-6xl mx-auto relative z-10">
-          <div className="scroll-fade-in">
-            <h2 className="font-playfair text-4xl md:text-5xl font-bold text-center mb-4" style={{ color: '#E6C9A2' }}>
-              Our Menu
-            </h2>
-            <p className="font-lato text-lg text-center mb-12" style={{ color: '#E6C9A2', opacity: 0.9 }}>
-              Handcrafted beverages and food made with passion
-            </p>
-          </div>
-          
-          {/* Menu Category Tabs */}
-          <div className="flex flex-wrap justify-center gap-2 mb-8">
-            {Object.entries(menuData).map(([key, category]) => (
-              <button
-                key={key}
-                onClick={() => setActiveCategory(key)}
-                className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
-                  activeCategory === key 
-                    ? 'text-coffee-brown shadow-lg' 
-                    : 'bg-coffee-brown hover:bg-coffee-dark'
-                }`}
-                style={activeCategory === key ? { backgroundColor: '#E6C9A2' } : { color: '#E6C9A2' }}
-              >
-                {category.title}
-              </button>
-            ))}
-          </div>
-
-          {/* Menu Items */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {menuData[activeCategory].items.map((item, index) => (
-              <div 
-                key={index}
-                className={`bg-coffee-brown rounded-lg p-6 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105 ${
-                  index % 3 === 0 ? 'scroll-slide-left' : 
-                  index % 3 === 1 ? 'scroll-fade-in' : 
-                  'scroll-slide-right'
-                }`}
-              >
-                <h3 className="font-playfair text-xl font-semibold mb-2" style={{ color: '#E6C9A2' }}>{item.name}</h3>
-                <p className="mb-4" style={{ color: '#E6C9A2', opacity: 0.9 }}>{item.description}</p>
-                <div className="flex justify-between items-center">
-                  <span className="font-lato text-lg font-bold" style={{ color: '#E6C9A2' }}>{formatPrice(item.price)}</span>
-                  <div className="flex flex-wrap gap-1">
-                    {item.tags.map((tag, tagIndex) => (
-                      <span key={tagIndex} className="text-xs text-coffee-brown px-2 py-1 rounded" style={{ backgroundColor: '#E6C9A2' }}>
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Shop Section - Higher Opacity */}
       <section id="shop" className="section-padding coffee-bean-section-high">
         <div className="max-w-6xl mx-auto text-center relative z-10">
@@ -344,6 +326,65 @@ const Home = () => {
               ))}
             </div>
           )}
+        </div>
+      </section>
+
+      {/* Menu Section - Lower Opacity */}
+      <section id="menu" className="section-padding coffee-bean-section-low">
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="scroll-fade-in">
+            <h2 className="font-playfair text-4xl md:text-5xl font-bold text-center mb-4" style={{ color: '#E6C9A2' }}>
+              Our Menu
+            </h2>
+            <p className="font-lato text-lg text-center mb-12" style={{ color: '#E6C9A2', opacity: 0.9 }}>
+              Handcrafted beverages and food made with passion
+            </p>
+          </div>
+          
+          {/* Menu Category Tabs */}
+          <div className="flex flex-wrap justify-center gap-2 mb-8">
+            {Object.entries(menuData).map(([key, category]) => (
+              <button
+                key={key}
+                onClick={() => setActiveCategory(key)}
+                className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
+                  activeCategory === key 
+                    ? 'text-coffee-brown shadow-lg' 
+                    : 'bg-coffee-brown hover:bg-coffee-dark'
+                }`}
+                style={activeCategory === key ? { backgroundColor: '#E6C9A2' } : { color: '#E6C9A2' }}
+              >
+                {category.title}
+              </button>
+            ))}
+          </div>
+
+          {/* Menu Items */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {menuData[activeCategory].items.map((item, index) => (
+              <div 
+                key={index}
+                className={`bg-coffee-brown rounded-lg p-6 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105 ${
+                  index % 3 === 0 ? 'scroll-slide-left' : 
+                  index % 3 === 1 ? 'scroll-fade-in' : 
+                  'scroll-slide-right'
+                }`}
+              >
+                <h3 className="font-playfair text-xl font-semibold mb-2" style={{ color: '#E6C9A2' }}>{item.name}</h3>
+                <p className="mb-4" style={{ color: '#E6C9A2', opacity: 0.9 }}>{item.description}</p>
+                <div className="flex justify-between items-center">
+                  <span className="font-lato text-lg font-bold" style={{ color: '#E6C9A2' }}>{formatPrice(item.price)}</span>
+                  <div className="flex flex-wrap gap-1">
+                    {item.tags.map((tag, tagIndex) => (
+                      <span key={tagIndex} className="text-xs text-coffee-brown px-2 py-1 rounded" style={{ backgroundColor: '#E6C9A2' }}>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
