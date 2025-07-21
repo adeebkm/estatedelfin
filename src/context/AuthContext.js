@@ -6,10 +6,16 @@ import { toast } from 'react-toastify';
 const AuthContext = createContext();
 
 // API base URL - dynamic for development vs production
+const isVercel = window.location.hostname.includes('vercel.app') || 
+                 window.location.hostname.includes('vercel.dev') ||
+                 process.env.NODE_ENV === 'production';
+
 const API_URL = process.env.REACT_APP_API_URL || 
-  (process.env.NODE_ENV === 'production' ? '/api' : 'http://localhost:5001/api');
+  (isVercel ? '/api' : 'http://localhost:5001/api');
 
 console.log('🔧 AuthContext: Environment:', process.env.NODE_ENV);
+console.log('🔧 AuthContext: Hostname:', window.location.hostname);
+console.log('🔧 AuthContext: isVercel:', isVercel);
 console.log('🔧 AuthContext: REACT_APP_API_URL:', process.env.REACT_APP_API_URL);
 console.log('🔧 AuthContext: Final API_URL:', API_URL);
 
