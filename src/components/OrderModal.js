@@ -218,15 +218,15 @@ const OrderModal = ({ isOpen, onClose }) => {
                   {orderDetails && (
                     <div className="bg-gray-50 rounded-lg p-4 mb-6">
                       <h4 className="font-semibold text-gray-900 mb-2">Order Details</h4>
-                      <p className="text-sm text-gray-600 mb-1">Order Number: <span className="font-medium">{orderDetails.orderNumber}</span></p>
-                      <p className="text-sm text-gray-600 mb-1">Total Amount: <span className="font-medium">₹{orderDetails.totalAmount}</span></p>
-                      <p className="text-sm text-gray-600">Payment Method: <span className="font-medium">{orderDetails.paymentMethod.toUpperCase()}</span></p>
+                      <p className="text-sm text-gray-600 mb-1">Order Number: <span className="font-medium">{orderDetails?.orderNumber || 'N/A'}</span></p>
+                      <p className="text-sm text-gray-600 mb-1">Total Amount: <span className="font-medium">₹{orderDetails?.totalAmount || 0}</span></p>
+                      <p className="text-sm text-gray-600">Payment Method: <span className="font-medium">{orderDetails?.paymentMethod ? String(orderDetails.paymentMethod).toUpperCase() : 'N/A'}</span></p>
                     </div>
                   )}
 
                   <div className="space-y-3">
                     <p className="text-sm text-gray-600">
-                      📧 A confirmation email has been sent to {customerInfo.email}
+                      📧 A confirmation email has been sent to {customerInfo?.email || 'your email'}
                     </p>
                     <p className="text-sm text-gray-600">
                       📱 We'll send you updates on your order status

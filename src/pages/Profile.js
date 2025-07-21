@@ -237,7 +237,7 @@ const Profile = () => {
                     Address
                   </label>
                   <p className="text-lg" style={{ color: '#E6C9A2' }}>
-                    {profileData.address || 'Not provided'}
+                    {typeof profileData.address === 'string' ? profileData.address : 'Not provided'}
                   </p>
                 </div>
               </div>
