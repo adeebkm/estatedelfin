@@ -4,11 +4,17 @@ import { useCart } from '../context/CartContext';
 import axios from 'axios';
 
 const Shop = () => {
+  console.log('🎬 Shop: Component is mounting/rendering');
+  
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [shopItems, setShopItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const { addItem } = useCart();
+
+  console.log('🔍 Shop: Component state initialized');
+  console.log('📦 Shop: Initial shopItems:', shopItems);
+  console.log('⏳ Shop: Initial loading:', loading);
 
   // Get unique categories from shop items
   const getCategories = () => {
@@ -18,6 +24,10 @@ const Shop = () => {
 
   // Fetch shop items from API
   useEffect(() => {
+    console.log('🚀 Shop: useEffect is running!');
+    console.log('🌐 Shop: Current window.location:', window.location.href);
+    console.log('📡 Shop: Current axios.defaults.baseURL:', axios.defaults.baseURL);
+    
     const fetchShopItems = async () => {
       console.log('🔍 Shop: Starting to fetch items...');
       console.log('📡 Axios baseURL:', axios.defaults.baseURL);
@@ -34,6 +44,8 @@ const Shop = () => {
       } catch (error) {
         console.error('❌ Shop: Error fetching shop items:', error);
         console.error('❌ Shop: Error details:', error.response || error.message);
+        console.error('❌ Shop: Error status:', error.response?.status);
+        console.error('❌ Shop: Error data:', error.response?.data);
         // Fallback to empty array if API fails
         setShopItems([]);
       } finally {
