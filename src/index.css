@@ -32,6 +32,14 @@ button, a, .clickable {
   position: relative;
 }
 
+/* Ensure shop cards are visible and performant */
+.shop-card {
+  background-color: rgb(44, 24, 16);
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+}
+
 .coffee-bean-section-low {
   background-image: 
     linear-gradient(rgba(44, 24, 16, 0.95), rgba(44, 24, 16, 0.95)),

@@ -300,7 +300,7 @@ const Home = () => {
               <p style={{ color: '#E6C9A2' }}>No shop items available</p>
             </div>
           ) : (
-            <div className="grid md:grid-cols-3 gap-8 relative z-20">
+            <div className="grid md:grid-cols-3 gap-8">
               {shopItems.map((item, index) => (
                 <div 
                   key={item._id} 
@@ -308,22 +308,9 @@ const Home = () => {
                     index === 0 ? 'scroll-slide-left' : 
                     index === 1 ? 'scroll-fade-in' : 
                     'scroll-slide-right'
-                  } relative z-30`}
-                  style={{
-                    opacity: 1,
-                    visibility: 'visible',
-                    display: 'block'
-                  }}
+                  }`}
                 >
-                  <div 
-                    className="bg-coffee-brown rounded-lg p-6 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105"
-                    style={{
-                      opacity: 1,
-                      minHeight: '400px',
-                      position: 'relative',
-                      zIndex: 40
-                    }}
-                  >
+                  <div className="bg-coffee-brown shop-card rounded-lg p-6 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105">
                     <div className="mb-4 text-center">
                       <img 
                         src={item.image} 
