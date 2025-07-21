@@ -5,10 +5,18 @@ import { useCart } from '../context/CartContext';
 import axios from 'axios';
 
 const Home = () => {
+  console.log('🎬 Home: Component is mounting/rendering NOW');
+  console.log('🎬 Home: Current timestamp:', new Date().toISOString());
+  
   const [activeCategory, setActiveCategory] = useState('coffee');
   const [shopItems, setShopItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const { addItem } = useCart();
+
+  console.log('🔍 Home: Component state initialized');
+  console.log('📦 Home: Initial shopItems array:', shopItems);
+  console.log('📊 Home: Initial shopItems length:', shopItems.length);
+  console.log('⏳ Home: Initial loading state:', loading);
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
@@ -289,7 +297,10 @@ const Home = () => {
             </div>
           ) : (
             <div className="grid md:grid-cols-3 gap-8">
-              {shopItems.map((item, index) => (
+                              {(() => {
+                  console.log('🎨 Home: Rendering shop items, count:', shopItems.length);
+                  console.log('📦 Home: shopItems array for rendering:', shopItems);
+                  return shopItems.map((item, index) => (
                 <div key={item._id} className={`${
                   index === 0 ? 'scroll-slide-left' : 
                   index === 1 ? 'scroll-fade-in' : 
