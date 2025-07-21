@@ -297,10 +297,7 @@ const Home = () => {
             </div>
           ) : (
             <div className="grid md:grid-cols-3 gap-8">
-                              {(() => {
-                  console.log('🎨 Home: Rendering shop items, count:', shopItems.length);
-                  console.log('📦 Home: shopItems array for rendering:', shopItems);
-                  return shopItems.map((item, index) => (
+              {shopItems.map((item, index) => (
                 <div key={item._id} className={`${
                   index === 0 ? 'scroll-slide-left' : 
                   index === 1 ? 'scroll-fade-in' : 
@@ -337,8 +334,7 @@ const Home = () => {
                     </div>
                   </div>
                 </div>
-              ));
-                })()}
+              ))}
             </div>
           )}
         </div>
