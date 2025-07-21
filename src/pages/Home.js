@@ -50,13 +50,40 @@ const Home = () => {
     console.log('🌐 Home: Current location:', window.location.href);
     console.log('📡 Home: Axios baseURL:', axios.defaults.baseURL);
     
+    const fallbackItems = [
+      {
+        _id: '1',
+        name: 'Black Pepper',
+        description: 'Premium black pepper from Chikmagalur',
+        price: 299,
+        image: 'https://images.unsplash.com/photo-1588058365548-9efe5acb8077',
+        category: 'spices'
+      },
+      {
+        _id: '2', 
+        name: '100% Arabica Coffee',
+        description: 'Single estate Arabica beans',
+        price: 450,
+        image: 'https://images.unsplash.com/photo-1559056961-84f90033c63d',
+        category: 'coffee'
+      },
+      {
+        _id: '3',
+        name: 'Filter Coffee Powder',
+        description: 'Traditional South Indian filter coffee',
+        price: 350,
+        image: 'https://images.unsplash.com/photo-1587734195503-904fca47e0d9',
+        category: 'coffee'
+      }
+    ];
+    
     const fetchShopItems = async () => {
       console.log('🔍 Home: Starting to fetch shop items...');
       
-      // Set timeout for faster loading
+      // Set timeout with fallback data (not empty array!)
       const timeoutId = setTimeout(() => {
-        console.log('⏰ Home: Shop loading timeout - setting fallback data');
-        setShopItems([]);
+        console.log('⏰ Home: Shop loading timeout - setting fallback items');
+        setShopItems(fallbackItems);
         setLoading(false);
       }, 3000); // 3 second timeout
       
@@ -72,7 +99,7 @@ const Home = () => {
         console.log('📦 Home: Response data:', response.data);
         console.log('📊 Home: Number of items:', response.data?.length);
         
-        setShopItems(response.data || []);
+        setShopItems(response.data || fallbackItems);
         console.log('✅ Home: Shop items set in state');
       } catch (error) {
         clearTimeout(timeoutId); // Clear timeout on error
@@ -82,32 +109,7 @@ const Home = () => {
         console.error('❌ Home: Error data:', error.response?.data);
         
         // Set fallback data quickly
-        setShopItems([
-          {
-            _id: '1',
-            name: 'Black Pepper',
-            description: 'Premium black pepper from Chikmagalur',
-            price: 299,
-            image: 'https://images.unsplash.com/photo-1588058365548-9efe5acb8077',
-            category: 'spices'
-          },
-          {
-            _id: '2', 
-            name: '100% Arabica Coffee',
-            description: 'Single estate Arabica beans',
-            price: 450,
-            image: 'https://images.unsplash.com/photo-1559056961-84f90033c63d',
-            category: 'coffee'
-          },
-          {
-            _id: '3',
-            name: 'Filter Coffee Powder',
-            description: 'Traditional South Indian filter coffee',
-            price: 350,
-            image: 'https://images.unsplash.com/photo-1587734195503-904fca47e0d9',
-            category: 'coffee'
-          }
-        ]);
+        setShopItems(fallbackItems);
         console.log('🔄 Home: Using fallback shop items');
       } finally {
         console.log('🏁 Home: Setting loading to false');
