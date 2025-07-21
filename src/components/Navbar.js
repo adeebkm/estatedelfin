@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import AuthModal from './AuthModal';
@@ -10,17 +11,26 @@ const Navbar = () => {
   const [showOrderModal, setShowOrderModal] = useState(false);
   const { getCartCount, items: cart } = useCart();
   const { user, isAuthenticated, logout } = useAuth();
+  const location = useLocation();
 
   const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      setIsOpen(false); // Close mobile menu after clicking
+    // Only scroll if we're on the home page
+    if (location.pathname === '/') {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+        setIsOpen(false); // Close mobile menu after clicking
+      }
+    } else {
+      // Navigate to home page with hash for section
+      window.location.href = `/#${sectionId}`;
     }
   };
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (location.pathname === '/') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
     setIsOpen(false);
   };
 
@@ -57,12 +67,13 @@ const Navbar = () => {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
-              <button 
+              <Link 
+                to="/"
                 onClick={scrollToTop}
                 className="text-coffee-brown hover:text-coffee-dark transition-all duration-300 font-medium"
               >
                 Home
-              </button>
+              </Link>
               <button 
                 onClick={() => scrollToSection('about')}
                 className="text-coffee-brown hover:text-coffee-dark transition-all duration-300 font-medium"
@@ -123,24 +134,20 @@ const Navbar = () => {
                   
                   {isOpen && (
                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-50">
-                      <button
-                        onClick={() => {
-                          setIsOpen(false);
-                          alert('Profile page coming soon!');
-                        }}
+                      <Link 
+                        to="/profile"
+                        onClick={() => setIsOpen(false)}
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
                       >
                         Profile
-                      </button>
-                      <button
-                        onClick={() => {
-                          setIsOpen(false);
-                          alert('Order history coming soon!');
-                        }}
+                      </Link>
+                      <Link 
+                        to="/orders"
+                        onClick={() => setIsOpen(false)}
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
                       >
                         Order History
-                      </button>
+                      </Link>
                       <button
                         onClick={handleLogout}
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
@@ -175,12 +182,13 @@ const Navbar = () => {
           {isOpen && (
             <div className="md:hidden">
               <div className="px-2 pt-2 pb-3 space-y-1">
-                <button 
+                <Link 
+                  to="/"
                   onClick={scrollToTop}
                   className="block w-full text-left px-3 py-2 text-coffee-brown hover:text-coffee-dark transition-colors duration-300 font-medium"
                 >
                   Home
-                </button>
+                </Link>
                 <button 
                   onClick={() => scrollToSection('about')}
                   className="block w-full text-left px-3 py-2 text-coffee-brown hover:text-coffee-dark transition-colors duration-300 font-medium"
@@ -209,24 +217,20 @@ const Navbar = () => {
                 {/* Mobile Authentication */}
                 {isAuthenticated ? (
                   <div className="border-t border-coffee-brown pt-2">
-                    <button
-                      onClick={() => {
-                        setIsOpen(false);
-                        alert('Profile page coming soon!');
-                      }}
+                    <Link 
+                      to="/profile"
+                      onClick={() => setIsOpen(false)}
                       className="block w-full text-left px-3 py-2 text-coffee-brown hover:text-coffee-dark transition-colors duration-300 font-medium"
                     >
                       Profile
-                    </button>
-                    <button
-                      onClick={() => {
-                        setIsOpen(false);
-                        alert('Order history coming soon!');
-                      }}
+                    </Link>
+                    <Link 
+                      to="/orders"
+                      onClick={() => setIsOpen(false)}
                       className="block w-full text-left px-3 py-2 text-coffee-brown hover:text-coffee-dark transition-colors duration-300 font-medium"
                     >
                       Order History
-                    </button>
+                    </Link>
                     <button
                       onClick={handleLogout}
                       className="block w-full text-left px-3 py-2 text-coffee-brown hover:text-coffee-dark transition-colors duration-300 font-medium"
