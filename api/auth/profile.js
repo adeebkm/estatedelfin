@@ -1,6 +1,6 @@
-const { connectToDatabase } = require('../_lib/mongodb');
-const User = require('../models/User');
-const { auth } = require('../middleware/auth');
+const { connectToDatabase } = require('../../lib/mongodb');
+const User = require('../../lib/models/User');
+const { auth } = require('../../lib/middleware/auth');
 
 module.exports = async (req, res) => {
   // Enable CORS

@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-const { connectToDatabase } = require('../_lib/mongodb');
-const User = require('../models/User');
+const { connectToDatabase } = require('../../lib/mongodb');
+const User = require('../../lib/models/User');
 
 module.exports = async (req, res) => {
   // Enable CORS

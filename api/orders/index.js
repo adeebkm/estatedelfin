@@ -1,8 +1,8 @@
-const { connectToDatabase } = require('../_lib/mongodb');
-const Order = require('../models/Order');
-const ShopItem = require('../models/ShopItem');
-const { auth } = require('../middleware/auth');
-const { sendOrderConfirmationEmail } = require('../utils/emailService');
+const { connectToDatabase } = require('../../lib/mongodb');
+const Order = require('../../lib/models/Order');
+const ShopItem = require('../../lib/models/ShopItem');
+const { auth } = require('../../lib/middleware/auth');
+const { sendOrderConfirmationEmail } = require('../../lib/utils/emailService');
 
 module.exports = async (req, res) => {
   // Enable CORS
