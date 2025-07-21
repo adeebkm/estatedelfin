@@ -295,15 +295,36 @@ const Home = () => {
             <div className="flex justify-center items-center py-12">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-coffee-brown"></div>
             </div>
+          ) : shopItems.length === 0 ? (
+            <div className="text-center py-12">
+              <p style={{ color: '#E6C9A2' }}>No shop items available</p>
+            </div>
           ) : (
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-3 gap-8 relative z-20">
               {shopItems.map((item, index) => (
-                <div key={item._id} className={`${
-                  index === 0 ? 'scroll-slide-left' : 
-                  index === 1 ? 'scroll-fade-in' : 
-                  'scroll-slide-right'
-                }`}>
-                  <div className="bg-coffee-brown rounded-lg p-6 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105">
+                <div 
+                  key={item._id} 
+                  className={`${
+                    index === 0 ? 'scroll-slide-left' : 
+                    index === 1 ? 'scroll-fade-in' : 
+                    'scroll-slide-right'
+                  } relative z-30`}
+                  style={{
+                    opacity: 1,
+                    visibility: 'visible',
+                    display: 'block'
+                  }}
+                >
+                  <div 
+                    className="bg-coffee-brown rounded-lg p-6 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105"
+                    style={{
+                      backgroundColor: '#8B4513',
+                      opacity: 1,
+                      minHeight: '400px',
+                      position: 'relative',
+                      zIndex: 40
+                    }}
+                  >
                     <div className="mb-4 text-center">
                       <img 
                         src={item.image} 

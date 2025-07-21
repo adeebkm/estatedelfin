@@ -112,6 +112,10 @@ export const AuthProvider = ({ children }) => {
         try {
           console.log('🔍 AuthContext: Attempting to load user profile...');
           console.log('🔑 AuthContext: Token exists:', state.token ? 'Yes' : 'No');
+          
+          // Add a small delay to prevent immediate logout after login
+          await new Promise(resolve => setTimeout(resolve, 100));
+          
           const response = await axios.get('/auth/profile');
           console.log('✅ AuthContext: User profile loaded successfully');
           dispatch({
@@ -124,19 +128,23 @@ export const AuthProvider = ({ children }) => {
           if (error.response?.status === 401) {
             console.log('🔑 AuthContext: Token invalid/expired - clearing and logging out');
             localStorage.removeItem('token');
+            dispatch({ type: 'LOGOUT' });
           } else {
             console.error('❌ AuthContext: Other error:', error.response?.status, error.message);
+            // Don't logout for network errors, just log the error
+            console.log('🔄 AuthContext: Network error - not logging out automatically');
           }
-          
-          dispatch({ type: 'LOGOUT' });
         }
       } else {
         console.log('🔍 AuthContext: No token found, skipping user load');
       }
     };
 
-    loadUser();
-  }, [state.token]);
+    // Only load user if we have a token and no user is already loaded
+    if (state.token && !state.user) {
+      loadUser();
+    }
+  }, [state.token, state.user]);
 
   // Register user
   const register = async (userData) => {
