@@ -318,7 +318,6 @@ const Home = () => {
                   <div 
                     className="bg-coffee-brown rounded-lg p-6 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105"
                     style={{
-                      backgroundColor: '#8B4513',
                       opacity: 1,
                       minHeight: '400px',
                       position: 'relative',
