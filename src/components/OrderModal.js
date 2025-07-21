@@ -31,8 +31,8 @@ const OrderModal = ({ isOpen, onClose }) => {
   useEffect(() => {
     if (isOpen && isAuthenticated && user) {
       setCustomerInfo({
-        name: `${user.firstName} ${user.lastName}`,
-        email: user.email,
+        name: user.name || '',
+        email: user.email || '',
         phone: user.phone || '',
         address: user.address || {
           street: '',
