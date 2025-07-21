@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Vercel Shop API</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        .test { margin: 20px 0; padding: 15px; border: 1px solid #ddd; background: white; }
+        .success { border-color: green; background: #f0fff0; }
+        .error { border-color: red; background: #fff0f0; }
+        button { padding: 10px 15px; margin: 5px; background: #007cba; color: white; border: none; cursor: pointer; }
+        pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Estate Deli - Vercel API Debug</h1>
+    <p>This page tests if the shop API works directly on Vercel</p>
+
+    <div class="test">
+        <h3>Test 1: Direct API Call</h3>
+        <button onclick="testShopAPI()">Test /api/shop/items</button>
+        <div id="apiResult"></div>
+    </div>
+
+    <div class="test">
+        <h3>Test 2: Environment Info</h3>
+        <button onclick="showEnvironment()">Show Environment</button>
+        <div id="envResult"></div>
+    </div>
+
+    <div class="test">
+        <h3>Test 3: Axios Test</h3>
+        <button onclick="testAxios()">Test with Axios</button>
+        <div id="axiosResult"></div>
+    </div>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        function log(elementId, message, isError = false) {
+            const element = document.getElementById(elementId);
+            const className = isError ? 'error' : 'success';
+            element.className = 'test ' + className;
+            element.innerHTML += '<pre>' + message + '</pre>';
+        }
+
+        async function testShopAPI() {
+            const resultDiv = document.getElementById('apiResult');
+            resultDiv.innerHTML = '';
+            
+            try {
+                log('apiResult', '📞 Calling /api/shop/items...');
+                
+                const response = await fetch('/api/shop/items');
+                log('apiResult', '📊 Status: ' + response.status);
+                
+                const data = await response.json();
+                log('apiResult', '✅ Response received:');
+                log('apiResult', JSON.stringify(data, null, 2));
+                log('apiResult', '📦 Items count: ' + data.length);
+                
+                if (data.length > 0) {
+                    log('apiResult', '🎯 First item: ' + data[0].name);
+                }
+            } catch (error) {
+                log('apiResult', '❌ Error: ' + error.message, true);
+            }
+        }
+
+        function showEnvironment() {
+            const resultDiv = document.getElementById('envResult');
+            resultDiv.innerHTML = '';
+            
+            log('envResult', '🌍 Current URL: ' + window.location.href);
+            log('envResult', '🌍 Origin: ' + window.location.origin);
+            log('envResult', '🌍 Host: ' + window.location.host);
+            log('envResult', '🌍 Protocol: ' + window.location.protocol);
+            
+            // Test if we can detect production
+            const isProduction = window.location.hostname !== 'localhost';
+            log('envResult', '🏭 Is Production: ' + isProduction);
+            
+            const expectedAPI = isProduction ? '/api' : 'http://localhost:5001/api';
+            log('envResult', '📡 Expected API base: ' + expectedAPI);
+        }
+
+        async function testAxios() {
+            const resultDiv = document.getElementById('axiosResult');
+            resultDiv.innerHTML = '';
+            
+            try {
+                // Configure axios like the React app does
+                const isProduction = window.location.hostname !== 'localhost';
+                const apiBase = isProduction ? '/api' : 'http://localhost:5001/api';
+                
+                log('axiosResult', '📡 Setting axios baseURL to: ' + apiBase);
+                axios.defaults.baseURL = apiBase;
+                
+                log('axiosResult', '📞 Calling shop/items with axios...');
+                const response = await axios.get('/shop/items');
+                
+                log('axiosResult', '✅ Axios response:');
+                log('axiosResult', JSON.stringify(response.data, null, 2));
+                log('axiosResult', '📦 Items: ' + response.data.length);
+                
+            } catch (error) {
+                log('axiosResult', '❌ Axios Error: ' + error.message, true);
+                if (error.response) {
+                    log('axiosResult', '📊 Status: ' + error.response.status, true);
+                    log('axiosResult', '📝 Data: ' + JSON.stringify(error.response.data), true);
+                }
+            }
+        }
+
+        // Auto-run environment check
+        showEnvironment();
+    </script>
+</body>
+</html> 

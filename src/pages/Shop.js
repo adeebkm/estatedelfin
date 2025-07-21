@@ -46,21 +46,32 @@ const Shop = () => {
   }, []);
 
   const filteredProducts = () => {
+    console.log('🔍 Shop: filteredProducts called');
+    console.log('📦 Shop: shopItems array:', shopItems);
+    console.log('📊 Shop: shopItems length:', shopItems.length);
+    console.log('🏷️ Shop: activeCategory:', activeCategory);
+    console.log('🔍 Shop: searchTerm:', searchTerm);
+    
     let products = shopItems;
     
     // Filter by category
     if (activeCategory !== 'all') {
+      console.log('🏷️ Shop: Filtering by category:', activeCategory);
       products = products.filter(product => product.category === activeCategory);
+      console.log('📦 Shop: After category filter:', products.length, 'items');
     }
     
     // Filter by search term
     if (searchTerm) {
+      console.log('🔍 Shop: Filtering by search term:', searchTerm);
       products = products.filter(product => 
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         product.description.toLowerCase().includes(searchTerm.toLowerCase())
       );
+      console.log('📦 Shop: After search filter:', products.length, 'items');
     }
     
+    console.log('✅ Shop: Final filtered products:', products);
     return products;
   };
 

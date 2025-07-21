@@ -9,9 +9,15 @@ const AuthContext = createContext();
 const API_URL = process.env.REACT_APP_API_URL || 
   (process.env.NODE_ENV === 'production' ? '/api' : 'http://localhost:5001/api');
 
+console.log('🔧 AuthContext: Environment:', process.env.NODE_ENV);
+console.log('🔧 AuthContext: REACT_APP_API_URL:', process.env.REACT_APP_API_URL);
+console.log('🔧 AuthContext: Final API_URL:', API_URL);
+
 // Configure axios
 axios.defaults.baseURL = API_URL;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
+
+console.log('📡 AuthContext: Axios configured with baseURL:', axios.defaults.baseURL);
 
 // Initial state
 const initialState = {
