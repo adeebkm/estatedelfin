@@ -1,0 +1,522 @@
+{
+  "Coffee": {
+    "Classic": [
+      {
+        "name": "Espresso",
+        "price": 160
+      },
+      {
+        "name": "Macchiato",
+        "price": 160
+      },
+      {
+        "name": "Cortado",
+        "price": 180
+      },
+      {
+        "name": "Flat White",
+        "price": 230
+      },
+      {
+        "name": "Cappuccino",
+        "price": 230
+      },
+      {
+        "name": "Caf\u00e9 Latte",
+        "price": 240
+      },
+      {
+        "name": "Americano",
+        "price": 190
+      },
+      {
+        "name": "Caf\u00e9 Mocha",
+        "price": 260
+      },
+      {
+        "name": "Affogato",
+        "price": 320
+      },
+      {
+        "name": "Filter Coffee",
+        "price": 160
+      }
+    ],
+    "Cold Coffee": [
+      {
+        "name": "Iced Americano",
+        "price": 190
+      },
+      {
+        "name": "Iced Latte",
+        "price": 240
+      },
+      {
+        "name": "Classic Cold Coffee",
+        "price": 300
+      },
+      {
+        "name": "Banoffee Cold Coffee",
+        "price": 320
+      }
+    ],
+    "Manual Brew": [
+      {
+        "name": "Vietnamese",
+        "price": 290
+      },
+      {
+        "name": "Pour Over",
+        "price": 240
+      },
+      {
+        "name": "French Press",
+        "price": 260
+      },
+      {
+        "name": "AeroPress",
+        "price": 260
+      }
+    ]
+  },
+  "Matcha Special": [
+    {
+      "name": "Classic Matcha Latte",
+      "price": 280
+    },
+    {
+      "name": "Seasonal Matcha",
+      "price": 280
+    },
+    {
+      "name": "Cloud Matcha",
+      "price": 280
+    }
+  ],
+  "Signature Hot Beverages": [
+    {
+      "name": "Red Velvet Latte",
+      "price": 260
+    },
+    {
+      "name": "Spiced Petal Latte",
+      "price": 260
+    },
+    {
+      "name": "Matcha Latte",
+      "price": 260
+    },
+    {
+      "name": "Spanish Latte",
+      "price": 260
+    },
+    {
+      "name": "Signature Hot Chocolate",
+      "price": 340
+    }
+  ],
+  "Signature Iced Beverages": [
+    {
+      "name": "Coffee Tonic",
+      "price": 210
+    },
+    {
+      "name": "Sparkling Orange Americano",
+      "price": 210
+    },
+    {
+      "name": "Basil Berry Breeze",
+      "price": 320
+    },
+    {
+      "name": "Hazelnut Ice Drift",
+      "price": 210
+    },
+    {
+      "name": "Strawberry Iced Mocha",
+      "price": 320
+    },
+    {
+      "name": "Signature Cold Chocolate",
+      "price": 340
+    }
+  ],
+  "Add-ons": [
+    {
+      "name": "Espresso",
+      "price": 50
+    },
+    {
+      "name": "Syrup (Irish, Caramel, Hazelnut, Vanilla)",
+      "price": 49
+    },
+    {
+      "name": "Milk (Oat, Soya, Almond)",
+      "price": 60
+    }
+  ],
+  "Mocktails": [
+    {
+      "name": "Apple of the Estate",
+      "price": 220
+    },
+    {
+      "name": "The Estate Sky",
+      "price": 230
+    },
+    {
+      "name": "Passionately Tropical",
+      "price": 230
+    },
+    {
+      "name": "Berry Peachy",
+      "price": 220
+    },
+    {
+      "name": "The Estate Sundowner",
+      "price": 220
+    },
+    {
+      "name": "Deli Coffee Cr\u00e8me",
+      "price": 220
+    },
+    {
+      "name": "Mint to Be",
+      "price": 210
+    }
+  ],
+  "Appetizers": [
+    {
+      "name": "Estate Crunchlets",
+      "price": 269
+    },
+    {
+      "name": "Forest Shroom Poppers",
+      "price": 279
+    },
+    {
+      "name": "Coastal Crackers",
+      "price": 289
+    },
+    {
+      "name": "Bean-Bang Veg Nachos",
+      "price": 319
+    },
+    {
+      "name": "Bean-Bang Chicken Nachos",
+      "price": 349
+    },
+    {
+      "name": "Estate Fiery Wings",
+      "price": 319
+    },
+    {
+      "name": "Cheeky Peri Wings",
+      "price": 309
+    },
+    {
+      "name": "Classic Salted Fries",
+      "price": 199
+    },
+    {
+      "name": "Peri Peri Fries",
+      "price": 209
+    },
+    {
+      "name": "Loaded Cheesy Fries",
+      "price": 239
+    },
+    {
+      "name": "Loaded Cheesy Chicken Fries",
+      "price": 259
+    },
+    {
+      "name": "Cheesy Garlic Groove",
+      "price": 199
+    },
+    {
+      "name": "Classic Garlic Bread",
+      "price": 259
+    },
+    {
+      "name": "Rustic Rooster Toast",
+      "price": 299
+    }
+  ],
+  "Salads": [
+    {
+      "name": "Citrus Papaya Salad",
+      "price": 269
+    },
+    {
+      "name": "Freshfield Waldorf Salad",
+      "price": 249
+    },
+    {
+      "name": "Rustic Greek Bowl",
+      "price": 279
+    },
+    {
+      "name": "Vintage Caesar Salad Chicken",
+      "price": 339
+    }
+  ],
+  "Burgers": [
+    {
+      "name": "Estate Veggie Delight",
+      "price": 309
+    },
+    {
+      "name": "The Woodland Burger",
+      "price": 319
+    },
+    {
+      "name": "Deli Fish Burger",
+      "price": 429
+    },
+    {
+      "name": "Hidden Chicken Cheese Burger",
+      "price": 389
+    },
+    {
+      "name": "Fiery Hive Burger",
+      "price": 369
+    },
+    {
+      "name": "Smash Chicken Burger",
+      "price": 369
+    },
+    {
+      "name": "Double Smash Chicken Burger",
+      "price": 429
+    },
+    {
+      "name": "Lamb Smash Burger",
+      "price": 549
+    },
+    {
+      "name": "Double Lamb Smash Burger",
+      "price": 659
+    }
+  ],
+  "Paninis and Open Sandwiches": [
+    {
+      "name": "Corn Spinach",
+      "price": 299
+    },
+    {
+      "name": "Golden-Shroom",
+      "price": 319
+    },
+    {
+      "name": "Pulled & Loaded",
+      "price": 349
+    },
+    {
+      "name": "The Estate Flame",
+      "price": 349
+    },
+    {
+      "name": "Cheese Out Lamb",
+      "price": 489
+    }
+  ],
+  "Pastas": [
+    {
+      "name": "Cheesy Mush Forest",
+      "price": 329
+    },
+    {
+      "name": "Sea-Silk Pasta",
+      "price": 399
+    },
+    {
+      "name": "Penne Alfredo (Veg)",
+      "price": 319
+    },
+    {
+      "name": "Penne Alfredo (Chicken)",
+      "price": 349
+    },
+    {
+      "name": "Spaghetti Arrabbiata (Veg)",
+      "price": 319
+    },
+    {
+      "name": "Spaghetti Arrabbiata (Chicken)",
+      "price": 349
+    },
+    {
+      "name": "Fresh Pesto Affair (Veg)",
+      "price": 339
+    },
+    {
+      "name": "Fresh Pesto Affair (Chicken)",
+      "price": 369
+    },
+    {
+      "name": "Estate Hot Primavera (Veg)",
+      "price": 339
+    },
+    {
+      "name": "Estate Hot Primavera (Chicken)",
+      "price": 379
+    },
+    {
+      "name": "Meatball & Marinara Muse",
+      "price": 459
+    },
+    {
+      "name": "Lamb Pour Spaghetti",
+      "price": 489
+    }
+  ],
+  "Pizzas": [
+    {
+      "name": "Mushroom Hill",
+      "prices": {
+        "9inch": 415,
+        "12inch": 519,
+        "Cheese Burst": 599
+      }
+    },
+    {
+      "name": "Classic Margherita",
+      "prices": {
+        "9inch": 359,
+        "12inch": 449
+      }
+    },
+    {
+      "name": "Verdure Pizza",
+      "prices": {
+        "9inch": 375,
+        "12inch": 469,
+        "Cheese Burst": 549
+      }
+    },
+    {
+      "name": "Estate Koli",
+      "prices": {
+        "9inch": 419,
+        "12inch": 529,
+        "Cheese Burst": 609
+      }
+    },
+    {
+      "name": "The Estate Deli Special",
+      "prices": {
+        "Veg": 509,
+        "Chicken": 589,
+        "Lamb": 679
+      }
+    },
+    {
+      "name": "Lamb Mince Crust",
+      "prices": {
+        "9inch": 539,
+        "12inch": 649,
+        "Cheese Burst": 739
+      }
+    },
+    {
+      "name": "Chicago Pie Pizza",
+      "prices": {
+        "Veg": 629,
+        "Chicken": 649,
+        "Lamb": 699
+      }
+    },
+    {
+      "name": "The Deli Pizzasta",
+      "prices": {
+        "Veg": 589,
+        "Chicken": 629
+      }
+    },
+    {
+      "name": "The Seafarer",
+      "price": 649
+    }
+  ],
+  "Rice Bowls": [
+    {
+      "name": "The Green Bowl",
+      "price": 299
+    },
+    {
+      "name": "Desi Wok",
+      "price": 329
+    },
+    {
+      "name": "Ooru Chicken Bowl",
+      "price": 319
+    },
+    {
+      "name": "Protein Bowl",
+      "price": 290
+    }
+  ],
+  "Extras": [
+    {
+      "name": "Eggs",
+      "price": 40
+    },
+    {
+      "name": "Plain Mayonnaise",
+      "price": 40
+    },
+    {
+      "name": "Corn",
+      "price": 40
+    },
+    {
+      "name": "Jalape\u00f1o",
+      "price": 50
+    },
+    {
+      "name": "Black Olives",
+      "price": 50
+    },
+    {
+      "name": "Green Olives",
+      "price": 50
+    },
+    {
+      "name": "Red Paprika",
+      "price": 50
+    },
+    {
+      "name": "Gherkins",
+      "price": 50
+    },
+    {
+      "name": "Tomato Salsa",
+      "price": 50
+    },
+    {
+      "name": "Chili Herb Mayo",
+      "price": 50
+    },
+    {
+      "name": "Mushrooms",
+      "price": 50
+    },
+    {
+      "name": "Cheese Sauce",
+      "price": 70
+    },
+    {
+      "name": "Grilled Chicken",
+      "price": 80
+    },
+    {
+      "name": "Prawns",
+      "price": 90
+    },
+    {
+      "name": "Burrata Cheese",
+      "price": 160
+    }
+  ]
+}

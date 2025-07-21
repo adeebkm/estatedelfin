@@ -1,0 +1,277 @@
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { shopCategories } from '../data/shopData';
+import { useCart } from '../context/CartContext';
+import axios from 'axios';
+
+const Shop = () => {
+  const [activeCategory, setActiveCategory] = useState('all');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [shopItems, setShopItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { addItem } = useCart();
+
+  // Fetch shop items from API
+  useEffect(() => {
+    const fetchShopItems = async () => {
+      try {
+        const response = await axios.get('http://localhost:5001/api/shop/items');
+        setShopItems(response.data);
+      } catch (error) {
+        console.error('Error fetching shop items:', error);
+        // Fallback to empty array if API fails
+        setShopItems([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchShopItems();
+  }, []);
+
+  const filteredProducts = () => {
+    let products = shopItems;
+    
+    // Filter by category
+    if (activeCategory !== 'all') {
+      products = products.filter(product => product.category === activeCategory);
+    }
+    
+    // Filter by search term
+    if (searchTerm) {
+      products = products.filter(product => 
+        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.description.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+    
+    return products;
+  };
+
+  const handleAddToCart = (product) => {
+    addItem({
+      id: `shop-${product._id}`, // Use _id from MongoDB
+      name: product.name,
+      price: product.price,
+      description: product.description,
+      category: product.category,
+      type: 'product'
+    });
+  };
+
+  return (
+    <div className="min-h-screen coffee-beans-bg">
+      {/* Header with Coffee Background */}
+      <section className="section-dark text-white py-16">
+        <div className="max-w-6xl mx-auto px-4 text-center relative z-10">
+          <motion.h1 
+            className="font-playfair text-5xl md:text-6xl font-bold mb-4 drop-shadow-lg"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            Shop
+          </motion.h1>
+          <motion.p 
+            className="font-lato text-xl text-beige drop-shadow-md"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.8 }}
+          >
+            Premium coffee beans, brewing equipment, and estate merchandise
+          </motion.p>
+        </div>
+      </section>
+
+      {/* Search and Filters */}
+      <section className="section-light py-8 sticky top-16 z-40 shadow-2xl backdrop-blur-lg">
+        <div className="max-w-6xl mx-auto px-4 relative z-10">
+          {/* Search Bar */}
+          <div className="mb-6">
+            <input
+              type="text"
+              placeholder="Search for products..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full p-3 border border-coffee rounded-lg focus:outline-none focus:ring-2 focus:ring-coffee bg-white bg-opacity-90 backdrop-blur-sm transition-all duration-300"
+            />
+          </div>
+
+          {/* Category Filters */}
+          <div className="mb-4">
+            <h3 className="font-playfair text-lg font-semibold text-dark-brown mb-3">Categories</h3>
+            <div className="flex flex-wrap gap-2">
+              {shopCategories.map(category => (
+                <button
+                  key={category.id}
+                  onClick={() => setActiveCategory(category.id)}
+                  className={`px-4 py-2 rounded-lg transition-all duration-300 ${
+                    activeCategory === category.id 
+                      ? 'bg-coffee text-white shadow-lg transform scale-105' 
+                      : 'bg-white bg-opacity-70 text-coffee hover:bg-coffee hover:text-white hover:shadow-lg hover:scale-105'
+                  }`}
+                >
+                  {category.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Products Grid */}
+      <section className="section-medium section-padding">
+        <div className="max-w-6xl mx-auto relative z-10">
+          {loading ? (
+            <div className="flex justify-center items-center py-20">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-coffee mx-auto mb-4"></div>
+                <p className="text-coffee font-lato">Loading shop items...</p>
+              </div>
+            </div>
+          ) : shopItems.length === 0 ? (
+            <div className="text-center py-20">
+              <p className="text-coffee font-lato text-xl mb-4">No shop items available</p>
+              <p className="text-light-coffee">Please check back later or contact us for assistance.</p>
+            </div>
+          ) : (
+            <motion.div 
+              className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              {filteredProducts().map((product, index) => (
+                <motion.div
+                  key={product._id}
+                className="card bg-white bg-opacity-95 backdrop-blur-sm"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05, duration: 0.5 }}
+                layout
+              >
+                {/* Product Image */}
+                <div className="aspect-square bg-beige bg-opacity-70 flex items-center justify-center backdrop-blur-sm">
+                  <div className="text-6xl">
+                    {product.category === 'Coffee Beans' ? '☕️' : 
+                     product.category === 'Mugs' ? '🥤' : 
+                     product.category === 'Filters' ? '📄' : 
+                     product.category === 'Brewing Kit' ? '⚗️' : 
+                     product.category === 'Equipment' ? '⚙️' : 
+                     '🛍️'}
+                  </div>
+                </div>
+
+                <div className="p-6">
+                  {/* Product Info */}
+                  <div className="mb-4">
+                    <h3 className="font-playfair text-xl font-semibold text-dark-brown mb-2">
+                      {product.name}
+                    </h3>
+                    <p className="text-coffee text-sm leading-relaxed mb-3">
+                      {product.description}
+                    </p>
+                    <div className="flex items-center justify-between">
+                      <span className="font-lato text-lg font-bold text-coffee">
+                        ₹{product.price}
+                      </span>
+                      <span className="text-xs text-light-coffee px-2 py-1 bg-beige bg-opacity-70 rounded backdrop-blur-sm">
+                        {product.category}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-1 mb-4">
+                    {product.tags.map(tag => (
+                      <span 
+                        key={tag}
+                        className="px-2 py-1 bg-light-coffee text-white text-xs rounded-full shadow-sm"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Add to Cart Button */}
+                  <button 
+                    onClick={() => handleAddToCart(product)}
+                    className="btn-primary w-full"
+                  >
+                    Add to Cart
+                  </button>
+                </div>
+              </motion.div>
+                ))}
+              </motion.div>
+              
+              {filteredProducts().length === 0 && !loading && shopItems.length > 0 && (
+                <div className="text-center py-12">
+                  <div className="bg-white bg-opacity-90 backdrop-blur-sm rounded-lg p-8 shadow-lg">
+                    <p className="text-coffee text-lg">No products found matching your criteria.</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Featured Products */}
+      <section className="section-light section-padding">
+        <div className="max-w-6xl mx-auto relative z-10">
+          <motion.h2 
+            className="font-playfair text-4xl font-bold text-dark-brown text-center mb-12"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            Featured Products
+          </motion.h2>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            {shopData.slice(0, 3).map((product, index) => (
+              <motion.div 
+                key={product.id}
+                className="text-center"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.2, duration: 0.8 }}
+                viewport={{ once: true }}
+              >
+                <div className="bg-beige bg-opacity-70 rounded-lg p-8 mb-4 aspect-square flex items-center justify-center backdrop-blur-sm shadow-lg">
+                  <div className="text-6xl">
+                    {product.category === 'Coffee Beans' ? '☕️' : 
+                     product.category === 'Mugs' ? '🥤' : 
+                     product.category === 'Filters' ? '📄' : 
+                     product.category === 'Brewing Kit' ? '⚗️' : 
+                     product.category === 'Equipment' ? '⚙️' : 
+                     '🛍️'}
+                  </div>
+                </div>
+                <h3 className="font-playfair text-xl font-semibold text-dark-brown mb-2">
+                  {product.name}
+                </h3>
+                <p className="text-coffee mb-4">
+                  {product.description}
+                </p>
+                <div className="font-lato text-lg font-bold text-coffee mb-4">
+                  ₹{product.price}
+                </div>
+                <button 
+                  onClick={() => handleAddToCart(product)}
+                  className="btn-primary"
+                >
+                  Add to Cart
+                </button>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Shop; 
