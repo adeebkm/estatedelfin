@@ -5,8 +5,9 @@ import { toast } from 'react-toastify';
 // Create AuthContext
 const AuthContext = createContext();
 
-// API base URL
-const API_URL = 'http://localhost:5001/api';
+// API base URL - dynamic for development vs production
+const API_URL = process.env.REACT_APP_API_URL || 
+  (process.env.NODE_ENV === 'production' ? '/api' : 'http://localhost:5001/api');
 
 // Configure axios
 axios.defaults.baseURL = API_URL;

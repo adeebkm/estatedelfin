@@ -40,7 +40,7 @@ const Home = () => {
   useEffect(() => {
     const fetchShopItems = async () => {
       try {
-        const response = await axios.get('http://localhost:5001/api/shop/items');
+        const response = await axios.get('/shop/items');
         setShopItems(response.data);
       } catch (error) {
         console.error('Error fetching shop items:', error);
