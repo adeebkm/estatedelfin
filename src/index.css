@@ -38,6 +38,26 @@ button, a, .clickable {
   opacity: 1 !important;
   visibility: visible !important;
   display: block !important;
+  transform: none !important; /* Prevent scroll animations from hiding cards */
+}
+
+/* Fix mobile overflow issues */
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Fix background attachment on mobile */
+@media (max-width: 768px) {
+  .coffee-bean-section-high,
+  .coffee-bean-section-low,
+  .coffee-bean-section-medium {
+    background-attachment: scroll !important;
+  }
 }
 
 .coffee-bean-section-low {
@@ -211,6 +231,14 @@ button, a, .clickable {
   transform: translateX(0);
 }
 
+/* FORCE shop section items to be visible regardless of scroll animations */
+#shop .scroll-fade-in,
+#shop .scroll-slide-left, 
+#shop .scroll-slide-right {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
 /* Enhanced Hero Effects */
 .hero-content {
   position: relative;
@@ -310,5 +338,22 @@ button, a, .clickable {
   
   .navbar-link {
     @apply text-coffee-brown hover:text-coffee-dark transition-all duration-300 font-medium;
+  }
+} 
+
+/* Additional mobile responsive fixes */
+@media (max-width: 768px) {
+  .grid {
+    gap: 1rem !important;
+  }
+  
+  .max-w-6xl {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  
+  /* Prevent any horizontal overflow on mobile */
+  section {
+    overflow-x: hidden;
   }
 } 
