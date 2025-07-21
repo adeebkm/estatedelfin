@@ -19,14 +19,25 @@ const Shop = () => {
   // Fetch shop items from API
   useEffect(() => {
     const fetchShopItems = async () => {
+      console.log('🔍 Shop: Starting to fetch items...');
+      console.log('📡 Axios baseURL:', axios.defaults.baseURL);
+      
       try {
+        console.log('📞 Shop: Making API call to /shop/items');
         const response = await axios.get('/shop/items');
+        console.log('✅ Shop: API response received:', response);
+        console.log('📦 Shop: Response data:', response.data);
+        console.log('📊 Shop: Number of items:', response.data?.length);
+        
         setShopItems(response.data);
+        console.log('✅ Shop: Items set in state');
       } catch (error) {
-        console.error('Error fetching shop items:', error);
+        console.error('❌ Shop: Error fetching shop items:', error);
+        console.error('❌ Shop: Error details:', error.response || error.message);
         // Fallback to empty array if API fails
         setShopItems([]);
       } finally {
+        console.log('🏁 Shop: Setting loading to false');
         setLoading(false);
       }
     };
