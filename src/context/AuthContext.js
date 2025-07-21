@@ -98,15 +98,28 @@ export const AuthProvider = ({ children }) => {
     const loadUser = async () => {
       if (state.token) {
         try {
+          console.log('🔍 AuthContext: Attempting to load user profile...');
+          console.log('🔑 AuthContext: Token exists:', state.token ? 'Yes' : 'No');
           const response = await axios.get('/auth/profile');
+          console.log('✅ AuthContext: User profile loaded successfully');
           dispatch({
             type: 'SET_USER',
             payload: response.data.user
           });
         } catch (error) {
-          console.error('Error loading user:', error);
+          console.error('❌ AuthContext: Error loading user:', error);
+          
+          if (error.response?.status === 401) {
+            console.log('🔑 AuthContext: Token invalid/expired - clearing and logging out');
+            localStorage.removeItem('token');
+          } else {
+            console.error('❌ AuthContext: Other error:', error.response?.status, error.message);
+          }
+          
           dispatch({ type: 'LOGOUT' });
         }
+      } else {
+        console.log('🔍 AuthContext: No token found, skipping user load');
       }
     };
 
