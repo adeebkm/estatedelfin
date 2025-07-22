@@ -205,6 +205,51 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Admin login
+  const adminLogin = async (credentials) => {
+    try {
+      dispatch({ type: 'SET_LOADING', payload: true });
+      
+      // For demo purposes, accept hardcoded admin credentials
+      if (credentials.email === 'admin@estatedeli.com' && credentials.password === 'admin123') {
+        const adminUser = {
+          name: 'Admin',
+          email: 'admin@estatedeli.com',
+          role: 'admin'
+        };
+        
+        const fakeToken = 'admin-token-' + Date.now();
+        
+        dispatch({
+          type: 'LOGIN_SUCCESS',
+          payload: {
+            user: adminUser,
+            token: fakeToken
+          }
+        });
+        
+        return { success: true };
+      }
+      
+      // Try actual API call
+      const response = await axios.post('/admin/login', credentials);
+      
+      dispatch({
+        type: 'LOGIN_SUCCESS',
+        payload: {
+          user: response.data.user,
+          token: response.data.token
+        }
+      });
+      
+      return { success: true };
+    } catch (error) {
+      dispatch({ type: 'SET_LOADING', payload: false });
+      const message = error.response?.data?.message || 'Admin login failed';
+      return { success: false, message };
+    }
+  };
+
   // Verify OTP
   const verifyOTP = async (otp) => {
     try {
@@ -291,6 +336,7 @@ export const AuthProvider = ({ children }) => {
     pendingVerification: state.pendingVerification,
     register,
     login,
+    adminLogin,
     logout,
     verifyOTP,
     resendOTP,
@@ -298,7 +344,20 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={value}>
+    <AuthContext.Provider value={{
+      user: state.user,
+      token: state.token,
+      isAuthenticated: state.isAuthenticated,
+      loading: state.loading,
+      tempUserId: state.tempUserId,
+      pendingVerification: state.pendingVerification,
+      register,
+      login,
+      adminLogin,
+      logout,
+      verifyOTP,
+      resendOTP
+    }}>
       {children}
     </AuthContext.Provider>
   );
