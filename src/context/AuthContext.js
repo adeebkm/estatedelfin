@@ -327,22 +327,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const value = {
-    user: state.user,
-    token: state.token,
-    loading: state.loading,
-    isAuthenticated: state.isAuthenticated,
-    tempUserId: state.tempUserId,
-    pendingVerification: state.pendingVerification,
-    register,
-    login,
-    adminLogin,
-    logout,
-    verifyOTP,
-    resendOTP,
-    updateProfile
-  };
-
   return (
     <AuthContext.Provider value={{
       user: state.user,
@@ -356,7 +340,8 @@ export const AuthProvider = ({ children }) => {
       adminLogin,
       logout,
       verifyOTP,
-      resendOTP
+      resendOTP,
+      updateProfile
     }}>
       {children}
     </AuthContext.Provider>

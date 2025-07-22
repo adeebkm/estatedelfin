@@ -37,7 +37,7 @@ const Profile = () => {
     setLoading(true);
 
     try {
-      const response = await axios.put('/auth/profile', profileData);
+      await axios.put('/auth/profile', profileData);
       toast.success('Profile updated successfully!');
       setIsEditing(false);
     } catch (error) {
