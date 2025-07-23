@@ -18,19 +18,36 @@ import './index.css';
 // Component to conditionally render navbar
 function AppContent() {
   const location = useLocation();
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, loading } = useAuth();
   const [showAdminLogin, setShowAdminLogin] = useState(false);
   
   const isAdminRoute = location.pathname.startsWith('/admin');
   
   useEffect(() => {
+    // Don't show admin login while authentication is loading
+    if (loading) {
+      return;
+    }
+    
     // Check if user is trying to access admin without admin login
     if (isAdminRoute && (!isAuthenticated || user?.role !== 'admin')) {
       setShowAdminLogin(true);
     } else {
       setShowAdminLogin(false);
     }
-  }, [isAdminRoute, isAuthenticated, user]);
+  }, [isAdminRoute, isAuthenticated, user, loading]);
+
+  // Show loading while authentication is being checked
+  if (loading) {
+    return (
+      <div className="min-h-screen coffee-bean-section-medium flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-coffee-brown mx-auto mb-4"></div>
+          <p style={{ color: '#E6C9A2' }}>Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   // Show admin login if needed
   if (showAdminLogin) {

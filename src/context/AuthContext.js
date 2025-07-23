@@ -30,7 +30,7 @@ const initialState = {
   user: null,
   token: localStorage.getItem('token') || null,
   loading: false,
-  isAuthenticated: false,
+  isAuthenticated: !!localStorage.getItem('token'), // Set based on token existence
   tempUserId: null, // For OTP verification
   pendingVerification: false
 };
@@ -94,6 +94,14 @@ const authReducer = (state, action) => {
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
+  // Set token in axios headers on initial load
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
+    }
+  }, []);
+
   // Set token in axios headers
   useEffect(() => {
     if (state.token) {
@@ -108,19 +116,44 @@ export const AuthProvider = ({ children }) => {
   // Load user on app start
   useEffect(() => {
     const loadUser = async () => {
-      if (state.token) {
+      const storedToken = localStorage.getItem('token');
+      
+      if (storedToken && !state.user) {
+        // Check if this is an admin token
+        if (storedToken.startsWith('admin-token-')) {
+          console.log('🔍 AuthContext: Admin token detected, restoring admin session');
+          const adminUser = {
+            name: 'Admin',
+            email: 'admin@estatedeli.com',
+            role: 'admin'
+          };
+          
+          dispatch({
+            type: 'LOGIN_SUCCESS',
+            payload: {
+              user: adminUser,
+              token: storedToken
+            }
+          });
+          return;
+        }
+        
         try {
           console.log('🔍 AuthContext: Attempting to load user profile...');
-          console.log('🔑 AuthContext: Token exists:', state.token ? 'Yes' : 'No');
+          console.log('🔑 AuthContext: Token exists:', storedToken ? 'Yes' : 'No');
           
-          // Add a small delay to prevent immediate logout after login
-          await new Promise(resolve => setTimeout(resolve, 100));
+          // Set the token in axios headers
+          axios.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
           
           const response = await axios.get('/auth/profile');
           console.log('✅ AuthContext: User profile loaded successfully');
+          
           dispatch({
-            type: 'SET_USER',
-            payload: response.data.user
+            type: 'LOGIN_SUCCESS',
+            payload: {
+              user: response.data.user,
+              token: storedToken
+            }
           });
         } catch (error) {
           console.error('❌ AuthContext: Error loading user:', error);
@@ -135,16 +168,19 @@ export const AuthProvider = ({ children }) => {
             console.log('🔄 AuthContext: Network error - not logging out automatically');
           }
         }
-      } else {
-        console.log('🔍 AuthContext: No token found, skipping user load');
+      } else if (!storedToken) {
+        console.log('🔍 AuthContext: No token found, user not authenticated');
+        // Ensure we're logged out if no token exists
+        if (state.isAuthenticated) {
+          dispatch({ type: 'LOGOUT' });
+        }
       }
     };
 
-    // Only load user if we have a token and no user is already loaded
-    if (state.token && !state.user) {
-      loadUser();
-    }
-  }, [state.token, state.user]);
+    // Always try to load user on mount if we have a token
+    loadUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run on mount, not on every state change
 
   // Register user
   const register = async (userData) => {
@@ -218,13 +254,14 @@ export const AuthProvider = ({ children }) => {
           role: 'admin'
         };
         
-        const fakeToken = 'admin-token-' + Date.now();
+        // Use a consistent admin token that persists across sessions
+        const adminToken = 'admin-token-estatedeli-2024';
         
         dispatch({
           type: 'LOGIN_SUCCESS',
           payload: {
             user: adminUser,
-            token: fakeToken
+            token: adminToken
           }
         });
         
